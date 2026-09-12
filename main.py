@@ -1,25 +1,21 @@
-import asyncio
+import os
 
-from models import ResearchQuery
-
-
-async def fetch_research(rq: ResearchQuery) -> str:
-    await asyncio.sleep(0)# placeholder for async API call
-
-    return f"Results for: {rq.query}"
+from dotenv import load_dotenv
+from openai import OpenAI
 
 
-async def main():
-    rq = ResearchQuery(
-        query="quantum computing",
-        max_sources=10,
-        language="en"
-    )
+# Load variables from .env
+load_dotenv()
 
-    result = await fetch_research(rq)
+# Create the OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    print(result)
+# Send a request to the model
+response = client.responses.create(
+    model="gpt-5.6-luna",
+    instructions="You are a helpful research assistant.",
+    input="Explain quantum computing in 3 simple bullet points."
+)
 
-
-if __name__ == "__main__":
-    asyncio.run(main())
+# Print the answer
+print(response.output_text)

@@ -39,5 +39,5 @@ python main.py
 
 In the **VS Code Terminal**:
 
-```text id="zq5cqm"
+
 git status
